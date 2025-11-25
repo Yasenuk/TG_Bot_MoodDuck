@@ -2,16 +2,24 @@ import fs from "fs";
 import path from "path";
 
 export async function save_photo(ctx) {
-  const fileId = ctx.message.photo.pop().file_id;
-  const link = await ctx.telegram.getFileLink(fileId);
+	const fileId = ctx.message.photo.pop().file_id;
+	const link = await ctx.telegram.getFileLink(fileId);
 
-  const fileName = `tg_${ctx.from.id}_${Date.now()}.jpg`;
-  const filePath = path.resolve("uploads", fileName);
+	const fileName = `tg_${ctx.from.id}_${Date.now()}.jpg`;
 
-  const res = await fetch(link.href);
-  const buffer = Buffer.from(await res.arrayBuffer());
+	const uploadsDir = "uploads";
 
-  fs.writeFileSync(filePath, buffer);
+	if (!fs.existsSync(uploadsDir)) {
+		fs.mkdirSync(uploadsDir, { recursive: true });
+		console.log("📁 Created uploads folder");
+	}
 
-  return fileName;
+	const filePath = path.resolve(uploadsDir, fileName);
+
+	const res = await fetch(link.href);
+	const buffer = Buffer.from(await res.arrayBuffer());
+
+	fs.writeFileSync(filePath, buffer);
+
+	return fileName;
 }
