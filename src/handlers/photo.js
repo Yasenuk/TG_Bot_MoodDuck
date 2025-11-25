@@ -13,7 +13,7 @@ export default function register_photo(bot) {
 
     if (!state) return next();
 
-    const fileName = await save_photo(ctx);
+    const fileUrl = await save_photo(ctx);
 
     let user = await User.findOne({ where: { telegram_id: tgId } });
 
@@ -24,13 +24,13 @@ export default function register_photo(bot) {
         telegram_id: tgId,
         name: state.name,
         phone: state.phone,
-        photo: fileName,
+        photo: fileUrl,
         unique_code: code,
 			});
 			
 			await Receipt.create({
         user_id: user.telegram_id,
-        photo: fileName,
+        photo: fileUrl,
       });
 
       user_states.delete(tgId);
@@ -43,7 +43,7 @@ export default function register_photo(bot) {
     if (state.step === "add_new_receipt") {
       await Receipt.create({
         user_id: user.telegram_id,
-        photo: fileName,
+        photo: fileUrl,
       });
 
       user_states.delete(tgId);

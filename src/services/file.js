@@ -1,25 +1,16 @@
-import fs from "fs";
-import path from "path";
+import axios from "axios";
+import { uploadToR2 } from "./storage.js";
 
-export async function save_photo(ctx) {
-	const fileId = ctx.message.photo.pop().file_id;
-	const link = await ctx.telegram.getFileLink(fileId);
+export const save_photo = async (ctx) => {
+  const fileId = ctx.message.photo.pop().file_id;
+  const file = await ctx.telegram.getFile(fileId);
 
-	const fileName = `tg_${ctx.from.id}_${Date.now()}.jpg`;
+  const url = `https://api.telegram.org/file/bot${process.env.BOT_TOKEN}/${file.file_path}`;
+  const response = await axios.get(url, { responseType: "arraybuffer" });
 
-	const uploadsDir = "uploads";
+  const fileName = `tg_${ctx.from.id}_${Date.now()}.jpg`;
 
-	if (!fs.existsSync(uploadsDir)) {
-		fs.mkdirSync(uploadsDir, { recursive: true });
-		console.log("📁 Created uploads folder");
-	}
+  const fileUrl = await uploadToR2(response.data, fileName);
 
-	const filePath = path.resolve(uploadsDir, fileName);
-
-	const res = await fetch(link.href);
-	const buffer = Buffer.from(await res.arrayBuffer());
-
-	fs.writeFileSync(filePath, buffer);
-
-	return fileName;
-}
+  return fileUrl;
+};
