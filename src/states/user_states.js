@@ -1,0 +1,1 @@
+export const user_states = new Map();

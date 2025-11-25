@@ -1,0 +1,23 @@
+{
+  "name": "tg_bot_moodduck",
+  "version": "1.0.0",
+  "main": "src/bot.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/bot.js",
+    "dev": "nodemon src/bot.js"
+  },
+  "author": "MoodDuck",
+  "license": "MIT",
+  "description": "",
+  "dependencies": {
+    "axios": "^1.13.2",
+    "dotenv": "^17.2.3",
+    "pg": "^8.16.3",
+    "sequelize": "^6.37.7",
+    "telegraf": "^4.16.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}
