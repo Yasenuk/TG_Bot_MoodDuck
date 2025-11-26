@@ -15,12 +15,12 @@ export default function register(bot) {
 			state.name = text;
 			state.step = "phone";
 
-			return ctx.reply("Тепер поділися номером телефону", request_phone);
+			return ctx.reply("Тепер нажимай \"Поділитися контактом\"", request_phone);
 		}
 
 		if (state.step === "phone") {
 			return ctx.reply(
-				"Поділися номером телефону кнопкою знизу!",
+				"Поділися номером телефону кнопкою \"Поділитися контактом\"!",
 				request_phone
 			);
 		}
