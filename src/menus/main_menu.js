@@ -12,7 +12,7 @@ export const show_user_data = async (ctx, user, Receipt) => {
 
 	const media = receipts.map((r) => ({
 		type: "photo",
-		media: r.url,
+		media: r.photo,
 	}));
 
 	if (media.length === 1) {

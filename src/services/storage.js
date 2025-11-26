@@ -5,6 +5,7 @@ const {
   R2_SECRET_ACCESS_KEY,
   R2_BUCKET_NAME,
   R2_ACCOUNT_ID,
+  R2_Pub_Dev
 } = process.env;
 
 export const r2 = new S3Client({
@@ -17,14 +18,18 @@ export const r2 = new S3Client({
 });
 
 export const uploadToR2 = async (buffer, fileName) => {
+  const key = `uploads/${fileName}`;
+
   await r2.send(
     new PutObjectCommand({
       Bucket: R2_BUCKET_NAME,
-      Key: fileName,
+      Key: key,
       Body: buffer,
       ContentType: "image/jpeg",
     })
   );
 
-  return `https://${R2_ACCOUNT_ID}.r2.cloudflarestorage.com/${R2_BUCKET_NAME}/${fileName}`;
+  const publicUrl = `https://pub-${R2_Pub_Dev}.r2.dev/${key}`;
+
+  return publicUrl;
 };
