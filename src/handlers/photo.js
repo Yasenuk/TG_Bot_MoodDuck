@@ -3,7 +3,7 @@ import { User } from "../models/user.js";
 import { save_photo } from "../services/file.js";
 import { user_states } from "../states/user_states.js";
 import { generate_code } from "../utils/code_generate.js";
-import main_menu, { show_user_data } from "../menus/main_menu.js";
+import { main_keyboard, show_user_data } from "../menus/main_menu.js";
 import { Receipt } from "../models/receipt.js";
 
 export default function register_photo(bot) {
@@ -37,7 +37,7 @@ export default function register_photo(bot) {
 
 			show_user_data(ctx, user, Receipt);
 
-      return ctx.reply("Готово — очікуй результати розіграшу", main_menu);
+      return ctx.reply("Готово — очікуй результати розіграшу", main_keyboard);
     }
 
     if (state.step === "add_new_receipt") {
@@ -49,7 +49,7 @@ export default function register_photo(bot) {
       user_states.delete(tgId);
 
 			show_user_data(ctx, user, Receipt);
-      return ctx.reply("Новий чек додано 🔥", main_menu);
+      return ctx.reply("Новий чек додано 🔥", main_keyboard);
     }
 
     next();

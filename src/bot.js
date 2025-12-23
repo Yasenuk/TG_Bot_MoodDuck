@@ -13,6 +13,10 @@ register(bot);
 register_photo(bot);
 register_actions(bot);
 
+bot.catch((err, ctx) => {
+  console.error("GLOBAL BOT ERROR", err);
+});
+
 (async () => {
   try {
     await sequelize.sync();

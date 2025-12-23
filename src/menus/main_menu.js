@@ -1,6 +1,6 @@
 import { Markup } from "telegraf";
 
-export default Markup.keyboard([["Добавити новий чек"]]).resize();
+export const main_keyboard = Markup.keyboard([["Добавити новий чек"]]).resize();
 
 export const request_phone = Markup.keyboard([
 	[Markup.button.contactRequest("Поділитися контактом")],
@@ -15,33 +15,31 @@ export const show_user_data = async (ctx, user, Receipt) => {
 		media: r.photo,
 	}));
 
-	if (media.length === 1) {
-		return ctx.replyWithPhoto(media[0].media, {
-			caption: `✅ Реєстрація завершена!\n
+	const caption = `✅ Реєстрація завершена!\n
 Твій ПІБ: *${user.name}*
 Твій Номер телефону: *${user.phone}*
-Твій код: *${user.unique_code}*`,
+Твій код: *${user.unique_code}*`;
+
+	const keyboard = Markup.inlineKeyboard([
+		[Markup.button.callback("Додати нове фото чеку", "add_new_receipt")],
+	]);
+
+	if (media.length === 1) {
+		return ctx.replyWithPhoto(media[0].media, {
+			caption,
 			parse_mode: "Markdown",
-			...Markup.inlineKeyboard([
-				[Markup.button.callback("Додати нове фото чеку", "add_new_receipt")],
-			]),
+			...keyboard,
 		});
 	}
 
-	await ctx.replyWithMediaGroup(media);
+	if (media.length > 1) {
+		await ctx.replyWithMediaGroup(media);
+	}
 
-	return ctx.reply(
-		`✅ Реєстрація завершена!\n
-Твій ПІБ: *${user.name}*
-Твій Номер телефону: *${user.phone}*
-Твій код: *${user.unique_code}*`,
-		{
-			parse_mode: "Markdown",
-			reply_markup: Markup.inlineKeyboard([
-				[Markup.button.callback("Додати нове фото чеку", "add_new_receipt")],
-			]).reply_markup,
-		}
-	);
+	return ctx.reply(caption, {
+		parse_mode: "Markdown",
+		reply_markup: keyboard.reply_markup,
+	});
 };
 
 export const show_conditions = (ctx) => {

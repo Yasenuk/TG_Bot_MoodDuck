@@ -1,4 +1,4 @@
-import main_menu from "../menus/main_menu.js";
+import { main_keyboard } from "../menus/main_menu.js";
 import { User } from "../models/user.js";
 import { user_states } from "../states/user_states.js";
 
@@ -8,7 +8,7 @@ export default function register_start(bot) {
 		const user = await User.findOne({ where: { telegram_id: tgId } });
 
 		if (user) {
-			return await ctx.reply("Ти вже зареєестрований!", main_menu);
+			return await ctx.reply("Ти вже зареєестрований!", main_keyboard);
 		}
 
 		user_states.set(tgId, { step: "name" });
