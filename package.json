@@ -2,10 +2,11 @@
   "name": "tg_bot_moodduck",
   "version": "1.0.0",
   "main": "src/bot.js",
-  "type": "module",
+  "type": "commonjs",
   "scripts": {
     "start": "node src/bot.js",
-    "dev": "nodemon src/bot.js"
+    "dev": "nodemon src/bot.js",
+    "view": "nodemon server.js"
   },
   "author": "MoodDuck",
   "license": "MIT",
@@ -14,7 +15,9 @@
     "@aws-sdk/client-s3": "^3.939.0",
     "@aws-sdk/s3-request-presigner": "^3.939.0",
     "axios": "^1.13.2",
+    "compression": "^1.8.1",
     "dotenv": "^17.2.3",
+    "express": "^5.1.0",
     "pg": "^8.16.3",
     "sequelize": "^6.37.7",
     "telegraf": "^4.16.3"

@@ -11,7 +11,7 @@ export default function register_actions(bot) {
 		});
 
 		await ctx.answerCbQuery();
-		await ctx.deleteMessage(menuId);
+		if (menuId) await ctx.deleteMessage(menuId);
 
 		const msg = await ctx.reply("Надішли фото нового чеку");
 		user_states.get(tgId).ask_message_id = msg.message_id;
@@ -23,7 +23,10 @@ export default function register_actions(bot) {
 		if (ctx.message.reply_to_message) {
 			try {
 				await ctx.deleteMessage(ctx.message.reply_to_message.message_id);
-			} catch {}
+			} catch {
+				console.log("err");
+				
+			}
 		}
 
 		user_states.set(tgId, {
