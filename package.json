@@ -4,19 +4,20 @@
   "main": "src/bot.js",
   "type": "module",
   "scripts": {
-    "start": "node src/bot.js",
     "dev": "nodemon src/bot.js"
   },
   "author": "MoodDuck",
   "license": "MIT",
   "description": "",
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.939.0",
+    "@aws-sdk/client-s3": "^3.965.0",
     "@aws-sdk/s3-request-presigner": "^3.939.0",
     "axios": "^1.13.2",
     "compression": "^1.8.1",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
+    "luxon": "^3.7.2",
+    "node-cron": "^4.2.1",
     "pg": "^8.16.3",
     "sequelize": "^6.37.7",
     "telegraf": "^4.16.3"
