@@ -30,7 +30,10 @@ export function startMailingScheduler(bot) {
 					try {
 						await bot.telegram.sendMessage(user.telegram_id, mail.message);
 					} catch (err) {
-						console.error("SEND ERROR:", err.response?.description);
+						if (e.response?.error_code === 403) {
+							console.log(`User ${user.telegram_id} blocked bot`);
+							console.error("SEND ERROR:", err.response?.description);
+						}
 					}
 				}
 

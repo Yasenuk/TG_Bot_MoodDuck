@@ -23,6 +23,15 @@ class MoodDuckBot {
 
 		try {
 			await sequelize.sync();
+
+			this.bot.catch((err, ctx) => {
+				console.error("Telegraf error:", err);
+			});
+
+			process.on("unhandledRejection", (err) => {
+				console.error("UNHANDLED REJECTION:", err);
+			});
+
 			await this.bot.launch();
 			console.log("MoodDuck Bot launched");
 		} catch (err) {

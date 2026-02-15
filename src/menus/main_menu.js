@@ -130,7 +130,8 @@ export class Menu {
 			await ctx.editMessageReplyMarkup(
 				this.getNetworkKeyboard(page).reply_markup,
 			);
-			await ctx.answerCbQuery();
+
+			await ctx.answerCbQuery().catch(() => {});
 		});
 
 		// Вибір мережі
@@ -150,7 +151,7 @@ export class Menu {
 				},
 			);
 
-			await ctx.answerCbQuery();
+			await ctx.answerCbQuery().catch(() => {});
 		});
 
 		bot.action(/^network_confirm:(\d+)$/, async (ctx) => {
@@ -164,7 +165,7 @@ export class Menu {
 			const tgId = ctx.from.id.toString();
 			const state = user_states.get(tgId);
 
-			state?.data?.network = network;
+			state.data.network = network;
 
 			await ctx.editMessageText(`✅ Обрано магазин: *${network}*`, {
 				parse_mode: "Markdown",
@@ -181,7 +182,7 @@ export class Menu {
 				this.getNetworkKeyboard(0),
 			);
 
-			await ctx.answerCbQuery();
+			await ctx.answerCbQuery().catch(() => {});
 		});
 	}
 }
