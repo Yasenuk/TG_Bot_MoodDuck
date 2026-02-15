@@ -200,8 +200,8 @@ export const show_user_data = async (ctx, user, Receipt) => {
   .map(item => item.network).join(" | ");
 
 	const caption = `✅ Реєстрація завершена!\n
-Твій ПІБ: *${user.name}*
-Твій Номер телефону: *${user.phone}*
+Твій ПІБ: *${user?.name}*
+Твій Номер телефону: *${user?.phone}*
 Мережі магазинів: *${networks}*
 Загальна кількість чеків: *${receipts.length}*`;
 
