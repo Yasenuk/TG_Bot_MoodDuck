@@ -164,7 +164,7 @@ export class Menu {
 			const tgId = ctx.from.id.toString();
 			const state = user_states.get(tgId);
 
-			state.data.network = network;
+			state?.data?.network = network;
 
 			await ctx.editMessageText(`✅ Обрано магазин: *${network}*`, {
 				parse_mode: "Markdown",
