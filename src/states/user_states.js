@@ -19,7 +19,7 @@ export const all_states = {
 	},
 };
 
-export async function change_state(ctx, tgId, newState, option) {
+export async function change_state(ctx, tgId, newState, option, is_prompt = true) {
 	const prev = user_states.get(tgId);
 
 	const state = {
@@ -30,5 +30,5 @@ export async function change_state(ctx, tgId, newState, option) {
 	user_states.set(tgId, state);
 
 	const prompt = all_states[newState].prompt;
-	return prompt ? ctx.reply(prompt, option) : null;
+	return prompt && is_prompt ? ctx.reply(prompt, option) : null;
 }

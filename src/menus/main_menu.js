@@ -1,12 +1,12 @@
 import { Markup } from "telegraf";
 import { NETWORKS, NETWORKS_PER_PAGE } from "./networks.js";
-import { user_states } from "../states/user_states.js";
+import { change_state, user_states } from "../states/user_states.js";
 import { User } from "../models/user.js";
 import { Receipt } from "../models/receipt.js";
 
 export class Menu {
-	constructor() { }
-	
+	constructor() {}
+
 	async create_receipt(ctx, tgId, state) {
 		const user = await User.findOne({ where: { telegram_id: tgId } });
 
@@ -104,18 +104,17 @@ export class Menu {
 	async registerUser(tgId, state, ctx) {
 		await this.create_user(ctx, tgId, state);
 		await this.create_receipt(ctx, tgId, state);
-		
+
 		const user = await User.findOne({ where: { telegram_id: tgId } });
 
 		user_states.delete(tgId);
 		show_user_data(ctx, user, Receipt);
 
-		
 		// режим додавання нового чеку
 		if (state.data?.mode === "add_receipt") {
 			return ctx.reply("Новий чек додано 🔥", this.showMainMenu());
 		}
-		
+
 		return ctx.reply(
 			"Готово — очікуй результати розіграшу",
 			this.showMainMenu(),
@@ -163,6 +162,9 @@ export class Menu {
 			}
 
 			const tgId = ctx.from.id.toString();
+
+			change_state(ctx, tgId, "select_shop", Markup.removeKeyboard(), false);
+
 			const state = user_states.get(tgId);
 
 			state.data.network = network;
@@ -171,7 +173,6 @@ export class Menu {
 				parse_mode: "Markdown",
 			});
 
-			
 			await ctx.answerCbQuery("Вибір підтверджено");
 			await this.registerUser(tgId, state, ctx);
 		});
@@ -194,11 +195,16 @@ export const show_user_data = async (ctx, user, Receipt) => {
 	const media = receipts.map((r) => ({
 		type: "photo",
 		media: r.url,
-		network: r.shop
+		network: r.shop,
 	}));
 
-	const networks = media.filter(item => item.network !== "Не обрана")
-  .map(item => item.network).join(" | ");
+	const networks = [
+		...new Set(
+			receipts
+				.map((r) => r.shop)
+				.filter((shop) => shop && shop !== "Не обрана"),
+		),
+	].join(" | ");
 
 	const caption = `✅ Реєстрація завершена!\n
 Твій ПІБ: *${user?.name}*
@@ -218,12 +224,12 @@ export const show_user_data = async (ctx, user, Receipt) => {
 		});
 	}
 
-	if (media.length > 1) {
+	if (media.length > 1 && media) {
 		await ctx.replyWithMediaGroup(media);
 	}
 
 	return ctx.reply(caption, {
 		parse_mode: "Markdown",
-		reply_markup: keyboard.reply_markup
+		reply_markup: keyboard.reply_markup,
 	});
 };
