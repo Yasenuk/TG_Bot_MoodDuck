@@ -13,7 +13,7 @@ export const NETWORKS = [
   "Smoke Mania",
   "Smoke Vibe",
   "Top Smoke",
-  "Underground Vape",
+  "UND Vape",
   "Vape City",
   "VAPOR City",
 ];
