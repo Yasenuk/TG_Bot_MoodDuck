@@ -111,7 +111,7 @@ class MoodDuckBot {
 			const text = ctx.message.text.trim();
 
 			if (state.step === "name") {
-				if (!/^[А-Яа-яЇїІіЄєҐґ\s]+$/.test(text)) {
+				if (!/^[А-Яа-яЇїІіЄєҐґ\s'’]+$/.test(text)) {
 					return change_state(ctx, tgId, "enter_name", Markup.removeKeyboard());
 				}
 
