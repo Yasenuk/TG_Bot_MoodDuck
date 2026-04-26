@@ -9,10 +9,6 @@ export const all_states = {
 		step: "phone",
 		prompt: 'Тепер нажимай "Поділитися контактом"',
 	},
-	select_shop: {
-		step: "shop",
-		prompt: "Обери магазин із списку нижче:",
-	},
 	enter_reciept: {
 		step: "photo",
 		prompt: "Супер! Тепер надішли фото чеку",

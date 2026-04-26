@@ -17,7 +17,6 @@ class MoodDuckBot {
 	}
 
 	async init() {
-		this.menu.registerNetworkActions(this.bot);
 		this.registerHandlers();
 		startMailingScheduler(this.bot);
 
@@ -145,8 +144,8 @@ class MoodDuckBot {
 
 			state.data.fileUrl = await save_photo(ctx);
 
-			change_state(ctx, tgId, "select_shop", Markup.removeKeyboard());
-			this.menu.showNetworkMenu(ctx);
+			change_state(ctx, tgId, "select_receipt", Markup.removeKeyboard(), false);
+			await this.menu.registerUser(tgId, state, ctx);
 		});
 
 		this.bot.action("ADD_RECEIPT", (ctx) => this.add_receipt_handler(ctx));
